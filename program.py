@@ -1,10 +1,11 @@
 import random
 import sys
-import pygame
+#import pygame
 
 '''
 I'm going to make this prettier... change the game more because I'm not a huge fan of it at the moment...
 - https://www.youtube.com/watch?v=_lSNIrR1nZU
+'''
 '''
 def initializeGame():
    pygame.init()
@@ -126,7 +127,7 @@ def initializeGame():
            clock.tick(30)
 
            pygame.display.update()
-
+'''
 def wordbank(file = "bank.csv"):
    f = open(file, "r", encoding = "ISO-8859-1")
    word = []
@@ -138,7 +139,7 @@ def wordbank(file = "bank.csv"):
       lst = line.split(",")
       #print(lst)
       word.append(lst[0])
-      definition.append(lst[1])
+      definition.append(lst[1].replace("- ",","))
       alt.append(lst[2].lower().split("-"))
       blank_2.append(lst[3])
       study.append(lst[4].strip())
@@ -156,7 +157,7 @@ def awardPoints(checkAnswer,word,definition,study,points,tries,index):
       pass
    else:
       pass
-   
+
    return points
 
 def check_answer(guess,word,index,alt):
@@ -200,7 +201,7 @@ def dontMindMe(word,definition,alt,blnk2,study):
    print("Used Indexes: ", used_indexes)
    print("Word Printing: ", word[aQhold].lower()) #printing the question for testing
    print("Printing Alternate List: ", alt[aQhold])
-   
+
 def main():
    # print(wordbank("bank.csv"))
    table = wordbank("bank.csv")
@@ -213,8 +214,9 @@ def main():
    used_indexes = []
    check = False
    points = 0
-   
-   testMe = False #change if you want to run testing. 
+   pointsbox = 0
+
+   testMe = False #change if you want to run testing.
 
    while len(used_indexes) != len(definition):
       if testMe == True:
@@ -224,16 +226,23 @@ def main():
       #Ask Question
       askQuestion = randomize_question(definition,used_indexes)
       aQhold = askQuestion
-      
+
       used_indexes.append(aQhold)
       #how many tries are used
       tries = 2
-      
+
       #asks the question and user input
-      inp = input(stringify(aQhold,definition))
+      for i in range(len(str(points))):
+         pointsbox+=1
+      print(" _______"+(pointsbox+1)*"_")
+      print("| Points",points,"|")
+      print("|_______"+(pointsbox+1)*"_"+" |")
+
+      print("______________________________")
+      inp = input(stringify(aQhold,definition)+"\n______________________________")
       
       check = check_answer(inp,word,aQhold,alt)
-      
+
 
       ###
       if check_answer(inp,word,aQhold,alt):
@@ -244,15 +253,19 @@ def main():
       ##
 
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
-      print("Points",points)
-      
-      
+
+      for i in range(len(str(points))):
+         pointsbox+=1
+      print(" _______"+(pointsbox+1)*"_")
+      print("| Points",points+" |")
+      print("|_______"+(pointsbox+1)*"_"+"|")
+            
       if check == False:
          correct = False
          while tries >=0 and correct != True:
             print("No, please try again, "+str(tries)+" remaining.\n")
             inp = input(stringify(aQhold,definition))
-      
+
             check = check_answer(inp,word,aQhold,alt)
 
             ###
@@ -262,7 +275,14 @@ def main():
                check = False
                print("wrong...",word[aQhold].lower(),"is not equal","check is equal to",inp)
             #
-            print("Points",awardPoints(check,word,definition,study,points,tries,aQhold))
+            points+= awardPoints(check,word,definition,study,points,tries,aQhold)
+
+            pointsbox = 0
+            for i in range(len(str(points))):
+               pointsbox+=1
+            print(" _______"+(pointsbox+1)*"_")
+            print("| Points",points+" |")
+            print("|_______"+(pointsbox+1)*"_"+"_|")
             
             if check == False:
                tries -= 1
