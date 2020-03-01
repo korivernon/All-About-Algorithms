@@ -2,134 +2,8 @@ import random
 import sys
 #import pygame
 
-'''
-I'm going to make this prettier... change the game more because I'm not a huge fan of it at the moment...
-- https://www.youtube.com/watch?v=_lSNIrR1nZU
-'''
-'''
-def initializeGame():
-   pygame.init()
-
-   WIDTH = 800
-   HEIGHT = 600
-
-   RED = (255,0,0)
-   BLUE = (0,0,255)
-   YELLOW = (255,255,0)
-   BACKGROUND_COLOR = (0,0,0)
-
-   player_size = 50
-   player_pos = [WIDTH/2, HEIGHT-2*player_size]
-
-   enemy_size = 50
-   enemy_pos = [random.randint(0,WIDTH-enemy_size), 0]
-   enemy_list = [enemy_pos]
-
-   SPEED = 10
-
-   screen = pygame.display.set_mode((WIDTH, HEIGHT))
-
-   game_over = False
-
-   score = 0
-
-   clock = pygame.time.Clock()
-
-   myFont = pygame.font.SysFont("monospace", 35)
-
-   def set_level(score, SPEED):
-           if score < 20:
-                   SPEED = 15
-           elif score < 40:
-                   SPEED = 20
-           elif score < 60:
-                   SPEED = 30
-           else:
-                   SPEED = 40
-           return SPEED
-           # SPEED = score/5 + 1
-
-
-   def drop_enemies(enemy_list):
-           delay = random.random()
-           if len(enemy_list) < 10 and delay < 0.1:
-                   x_pos = random.randint(0,WIDTH-enemy_size)
-                   y_pos = 0
-                   enemy_list.append([x_pos, y_pos])
-
-   def draw_enemies(enemy_list):
-           for enemy_pos in enemy_list:
-                   pygame.draw.rect(screen, BLUE, (enemy_pos[0], enemy_pos[1], enemy_size, enemy_size))
-
-   def update_enemy_positions(enemy_list, score):
-           for idx, enemy_pos in enumerate(enemy_list):
-                   if enemy_pos[1] >= 0 and enemy_pos[1] < HEIGHT:
-                           enemy_pos[1] += SPEED
-                   else:
-                           enemy_list.pop(idx)
-                           score += 1
-           return score
-
-   def collision_check(enemy_list, player_pos):
-           for enemy_pos in enemy_list:
-                   if detect_collision(enemy_pos, player_pos):
-                           return True
-           return False
-
-   def detect_collision(player_pos, enemy_pos):
-           p_x = player_pos[0]
-           p_y = player_pos[1]
-
-           e_x = enemy_pos[0]
-           e_y = enemy_pos[1]
-
-           if (e_x >= p_x and e_x < (p_x + player_size)) or (p_x >= e_x and p_x < (e_x+enemy_size)):
-                   if (e_y >= p_y and e_y < (p_y + player_size)) or (p_y >= e_y and p_y < (e_y+enemy_size)):
-                           return True
-           return False
-
-   while not game_over:
-
-           for event in pygame.event.get():
-                   if event.type == pygame.QUIT:
-                           sys.exit()
-
-                   if event.type == pygame.KEYDOWN:
-
-                           x = player_pos[0]
-                           y = player_pos[1]
-
-                           if event.key == pygame.K_LEFT:
-                                   x -= player_size
-                           elif event.key == pygame.K_RIGHT:
-                                   x += player_size
-
-                           player_pos = [x,y]
-
-           screen.fill(BACKGROUND_COLOR)
-
-           drop_enemies(enemy_list)
-           score = update_enemy_positions(enemy_list, score)
-           SPEED = set_level(score, SPEED)
-
-           text = "Score:" + str(score)
-           label = myFont.render(text, 1, YELLOW)
-           screen.blit(label, (WIDTH-200, HEIGHT-40))
-
-           if collision_check(enemy_list, player_pos):
-                   game_over = True
-                   break
-
-           draw_enemies(enemy_list)
-
-           pygame.draw.rect(screen, RED, (player_pos[0], player_pos[1], player_size, player_size))
-
-           clock.tick(30)
-
-           pygame.display.update()
-'''
 def wordbank(file = "bank.csv"):
-   f = open(file, "r", encoding = "ISO-8859-1")
+   f = open(file, "r")
    word = []
    definition = []
    blank_2 = []
@@ -162,6 +36,7 @@ def awardPoints(checkAnswer,word,definition,study,points,tries,index):
 
 def check_answer(guess,word,index,alt):
    #Check if the answer passed in is correct
+
    for i in alt[index]:
       if (guess == i) == True:
          return True
@@ -185,7 +60,13 @@ def randomize_question(definition,used_indexes):
       else:
          check = False
    return questionIndex
-
+def print_points(points):
+   pointsbox = 0;
+   for i in range(len(str(points))):
+      pointsbox+=1
+      print("+------"+(pointsbox)*"-"+"---+")
+      print("| Points",points,"|")
+      print("+------"+(pointsbox)*"-"+"---+")
 def award_points():
    #If the answer in check_answer() is correct, award points
    pass
@@ -195,7 +76,7 @@ def graphics():
    pass
 
 def stringify(index,definition):
-   return "What is the answer to the following? \n\n"+definition[index]+"\n\nYour answer: "
+   return "+----------------------------------+\nWhat is the answer to the following? \n\n"+definition[index]+"\n+----------------------------------+\nYour Answer: "
 
 def dontMindMe(word,definition,alt,blnk2,study):
    print("Used Indexes: ", used_indexes)
@@ -232,42 +113,25 @@ def main():
       tries = 2
 
       #asks the question and user input
-      for i in range(len(str(points))):
-         pointsbox+=1
-      print(" _______"+(pointsbox+1)*"_")
-      print("| Points",points,"|")
-      print("|_______"+(pointsbox+1)*"_"+" |")
+      print_points(points)
 
-      print("______________________________")
-      inp = input(stringify(aQhold,definition)+"\n______________________________")
+      inp = input(stringify(aQhold,definition))
       
       check = check_answer(inp,word,aQhold,alt)
 
-
-      ###
-      if check_answer(inp,word,aQhold,alt):
-         check = True
-      else:
-         check = False
+      if False == check_answer(inp,word,aQhold,alt):
          print("wrong...",word[aQhold].lower(),"is not equal","check is equal to",inp)
-      ##
 
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
 
-      for i in range(len(str(points))):
-         pointsbox+=1
-      print(" _______"+(pointsbox+1)*"_")
-      print("| Points",points+" |")
-      print("|_______"+(pointsbox+1)*"_"+"|")
-            
       if check == False:
          correct = False
          while tries >=0 and correct != True:
             print("No, please try again, "+str(tries)+" remaining.\n")
+
             inp = input(stringify(aQhold,definition))
 
             check = check_answer(inp,word,aQhold,alt)
-
             ###
             if check_answer(inp,word,aQhold,alt):
                check = True
@@ -276,13 +140,6 @@ def main():
                print("wrong...",word[aQhold].lower(),"is not equal","check is equal to",inp)
             #
             points+= awardPoints(check,word,definition,study,points,tries,aQhold)
-
-            pointsbox = 0
-            for i in range(len(str(points))):
-               pointsbox+=1
-            print(" _______"+(pointsbox+1)*"_")
-            print("| Points",points+" |")
-            print("|_______"+(pointsbox+1)*"_"+"_|")
             
             if check == False:
                tries -= 1
