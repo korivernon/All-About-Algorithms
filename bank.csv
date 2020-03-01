@@ -13,7 +13,7 @@ Complete Binary Tree,All leaves at max height h or h AND all leaves are to the l
 Heap Property,Parent is greater than or equal to the children (descending),HP,,
 O(logn),If a complete tree has n nodes then its height is ________.,O(log n)-logn,,
 heapify_down(),Takes an almost-correct heap and fixes it. Interchanges r with largest child. ,,,
-O(1),Removal of root in Heap time complexity,1,,
+O(1),Removal of root in dynamic Heap time complexity,1,,
 O(logn),heapify_down(),O(log n)-logn,,
 O(logn),heapify_up() time complexity,O(log n)-logn,,
 Greedy Algorithm,_______ ________ never schedules two incompatible lectures in the same classroom,greedy algo,,
