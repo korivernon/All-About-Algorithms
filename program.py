@@ -64,9 +64,9 @@ def print_points(points):
    pointsbox = 0;
    for i in range(len(str(points))):
       pointsbox+=1
-      print("+------"+(pointsbox)*"-"+"---+")
-      print("| Points",points,"|")
-      print("+------"+(pointsbox)*"-"+"---+")
+   print("+------"+(pointsbox)*"-"+"---+")
+   print("| Points",points,"|")
+   print("+------"+(pointsbox)*"-"+"---+")
 def award_points():
    #If the answer in check_answer() is correct, award points
    pass
