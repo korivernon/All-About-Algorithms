@@ -64,9 +64,15 @@ def print_points(points):
    pointsbox = 0;
    for i in range(len(str(points))):
       pointsbox+=1
-   print("+------"+(pointsbox)*"-"+"---+")
-   print("| Points",points,"|")
-   print("+------"+(pointsbox)*"-"+"---+")
+   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m")
+   print("\033[1;33;40m| Points",points,"|\033[0m")
+   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m")
+'''
+print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m\033[1;35;40m----------------"+(questions)*"-"+"---+\033")
+print("\033[1;33;40m| Points",points,"|\033[0m\033[1;35;40m Questions Left: "+str(questions)+"|\033")
+print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m\033[1;35;40m----------------"+(questions)*"-"+"---+\033")
+'''
+   
 def award_points():
    #If the answer in check_answer() is correct, award points
    pass
@@ -76,7 +82,7 @@ def graphics():
    pass
 
 def stringify(index,definition):
-   return "+----------------------------------+\nWhat is the answer to the following? \n\n"+definition[index]+"\n+----------------------------------+\nYour Answer: "
+   return "+----------------------------------+\nWhat is the answer to the following? \n\n\033[1;37;40m"+definition[index]+"\033[0m\n+----------------------------------+\nYour Answer: "
 
 def dontMindMe(word,definition,alt,blnk2,study):
    print("Used Indexes: ", used_indexes)
@@ -84,6 +90,7 @@ def dontMindMe(word,definition,alt,blnk2,study):
    print("Printing Alternate List: ", alt[aQhold])
 
 def main():
+   print("\033[1;34;40m +-------------------Beginning Game-------------------+\033[0m")
    # print(wordbank("bank.csv"))
    table = wordbank("bank.csv")
    word = table[0]
@@ -120,14 +127,14 @@ def main():
       check = check_answer(inp,word,aQhold,alt)
 
       if False == check_answer(inp,word,aQhold,alt):
-         print("wrong...",word[aQhold].lower(),"is not equal","check is equal to",inp)
+         print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
 
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
 
       if check == False:
          correct = False
          while tries >=0 and correct != True:
-            print("No, please try again, "+str(tries)+" remaining.\n")
+            print("\033[1;31;40mWNo, please try again, "+str(tries)+" remaining.\033[0m")
 
             inp = input(stringify(aQhold,definition))
 
@@ -137,7 +144,7 @@ def main():
                check = True
             else:
                check = False
-               print("wrong...",word[aQhold].lower(),"is not equal","check is equal to",inp)
+               print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
             #
             points+= awardPoints(check,word,definition,study,points,tries,aQhold)
             
