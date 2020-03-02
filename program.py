@@ -60,15 +60,25 @@ def randomize_question(definition,used_indexes):
       else:
          check = False
    return questionIndex
-def print_points(points,questions):
+def print_points(points,questions,correct):
    pointsbox = 0;
    for i in range(len(str(points))):
-      pointsbox+=1
-   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
-   print("\033[1;33;40m| Points",points,"|\033\033[1;35;40m Questions Left: "+str(questions)+" |\033[0m")
-   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+         pointsbox+=1
+   if points == 0:
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+      print("\033[1;33;40m| Points",points,"|\033\033[1;35;40m Questions Left: "+str(questions)+" |\033[0m")
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+   elif correct == True:
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033\033[1;36;40m"+(len("correct: yes"))*"-"+"--+\033[0m")
+      print("\033[1;33;40m| Points",points,"|\033\033[1;35;40m Questions Left: "+str(questions)+" |\033\033[1;36;40m Correct: Yes |")
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033\033[1;36;40m"+(len("correct: yes"))*"-"+"--+\033[0m")
 
-##   print("\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+   elif correct == False:
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033\033[1;31;40m"+(len("correct: no"))*"-"+"--+\033[0m")
+      print("\033[1;33;40m| Points",points,"|\033\033[1;35;40m Questions Left: "+str(questions)+" |\033\033[1;31;40m Correct: No |")
+      print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033\033[1;31;40m"+(len("correct: no"))*"-"+"--+\033[0m")
+
+##   print("\033[1;35;40m----------------"+(len("correct")*"-"+"--+\033[0m")
 ##   print("\033[1;35;40m Questions Left: "+str(questions)+" |\033[0m")
 ##   print("\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
    
@@ -117,22 +127,23 @@ def main():
       used_indexes.append(aQhold)
       #how many tries are used
       tries = 2
-
       #asks the question and user input
-      print_points(points,len(word)-len(used_indexes))
+      print_points(points,len(word)-len(used_indexes),check)
 
       inp = input(stringify(aQhold,definition))
       
       check = check_answer(inp,word,aQhold,alt)
 
-      if False == check_answer(inp,word,aQhold,alt):
+      if False == check_answer(inp,word,aQhold,alt) and points != 0:
          print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
+         print_points(points,len(word)-len(used_indexes),check)
 
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
 
       if check == False:
          correct = False
          while tries >=0 and correct != True:
+            print_points(points,len(word)-len(used_indexes),check)
             print("\033[1;31;40mWNo, please try again, "+str(tries)+" remaining.\033[0m")
 
             inp = input(stringify(aQhold,definition))
