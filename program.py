@@ -137,7 +137,6 @@ def main():
 
       if False == check_answer(inp,word,aQhold,alt) and points != 0:
          print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
-         print_points(points,len(word)-len(used_indexes),check)
 
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
 
