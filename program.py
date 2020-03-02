@@ -18,6 +18,7 @@ def wordbank(file = "bank.csv"):
       blank_2.append(lst[3])
       study.append(lst[4].strip())
    table = [word, definition, alt, blank_2, study]
+   f.close()
    return table
 
 def awardPoints(checkAnswer,word,definition,study,points,tries,index):
@@ -91,7 +92,7 @@ def graphics():
    pass
 
 def stringify(index,definition):
-   return "+----------------------------------+\nWhat is the answer to the following? \n\n\033[1;37;40m"+definition[index]+"\033[0m\n+----------------------------------+\nYour Answer: "
+   return "+----------------------------------+\nWhat is the answer to the following? \n\n\033[1;37;40m"+definition[index]+"\033[0m\n+----------------------------------+\n>>> Your Answer: "
 
 def dontMindMe(word,definition,alt,blnk2,study):
    print("Used Indexes: ", used_indexes)
