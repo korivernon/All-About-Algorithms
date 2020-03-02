@@ -60,18 +60,17 @@ def randomize_question(definition,used_indexes):
       else:
          check = False
    return questionIndex
-def print_points(points):
+def print_points(points,questions):
    pointsbox = 0;
    for i in range(len(str(points))):
       pointsbox+=1
-   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m")
-   print("\033[1;33;40m| Points",points,"|\033[0m")
-   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m")
-'''
-print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m\033[1;35;40m----------------"+(questions)*"-"+"---+\033")
-print("\033[1;33;40m| Points",points,"|\033[0m\033[1;35;40m Questions Left: "+str(questions)+"|\033")
-print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033[0m\033[1;35;40m----------------"+(questions)*"-"+"---+\033")
-'''
+   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+   print("\033[1;33;40m| Points",points,"|\033\033[1;35;40m Questions Left: "+str(questions)+" |\033[0m")
+   print("\033[1;33;40m+------"+(pointsbox)*"-"+"---+\033\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+
+##   print("\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
+##   print("\033[1;35;40m Questions Left: "+str(questions)+" |\033[0m")
+##   print("\033[1;35;40m----------------"+(len(str(questions)))*"-"+"--+\033[0m")
    
 def award_points():
    #If the answer in check_answer() is correct, award points
@@ -120,7 +119,7 @@ def main():
       tries = 2
 
       #asks the question and user input
-      print_points(points)
+      print_points(points,len(word)-len(used_indexes))
 
       inp = input(stringify(aQhold,definition))
       
