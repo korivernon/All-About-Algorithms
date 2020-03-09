@@ -25,7 +25,7 @@ def awardPoints(checkAnswer,word,definition,study,points,tries,index):
    if checkAnswer == False:
       points -= (2-tries)*len(definition[index])
    elif checkAnswer == True:
-      points += (tries*(len(word[index])*len(definition[index])))
+      points += (tries*(len(word[index])))
 
    if (points>=10000):
       #initializeGame()
@@ -48,6 +48,9 @@ def check_answer(guess,word,index,alt):
       return True
    elif guess in alt[index]:
       return True
+   elif guess.lower() == 'hint':
+      print("\033[1;33;40m-- >Hint: '"+word[index][0:2]+(len(word[index])-2)*"-"+"'\033[0m")
+      return False
    else:
       return False
 
@@ -135,16 +138,13 @@ def main():
       
       check = check_answer(inp,word,aQhold,alt)
 
-      if False == check_answer(inp,word,aQhold,alt) and points != 0:
-         print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
-
       points+= awardPoints(check,word,definition,study,points,tries,aQhold)
 
       if check == False:
          correct = False
          while tries >=0 and correct != True:
             print_points(points,len(word)-len(used_indexes),check)
-            print("\033[1;31;40mWNo, please try again, "+str(tries)+" remaining.\033[0m")
+            print("\033[1;31;40mNo, please try again, "+str(tries)+" remaining.\033[0m")
 
             inp = input(stringify(aQhold,definition))
 
@@ -154,7 +154,7 @@ def main():
                check = True
             else:
                check = False
-               print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
+               ## print("\033[1;31;40mWrong...",word[aQhold].lower(),"is not equal","check is equal to",inp+"\033[0m")
             #
             points+= awardPoints(check,word,definition,study,points,tries,aQhold)
             
