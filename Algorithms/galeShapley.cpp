@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdio.h>
 using namespace std;
-
+ 
 /*
 The Gale-Shapley Algorithm is as follows...
 while (there exist a free man m who still has a woman to propose to)
